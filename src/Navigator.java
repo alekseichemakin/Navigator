@@ -12,9 +12,9 @@ public class Navigator {
 
 	private Sight[] sights;
 	private int freeTime;
-	private static final int TIME_IN_TRIP = 48;
-	private static final int TIME_TO_SLEEP = 16;
-	private static final String FILE_PATH = "./places.txt"; // should be [name importance time]
+	private final static int TIME_IN_TRIP = 48;
+	private final static int TIME_TO_SLEEP = 16;
+	private final static String FILE_PATH = "./places.txt"; // should be [name importance time]
 
 	public Navigator(Sight[] items, int freeTime) {
 		this.sights = items;
@@ -34,14 +34,13 @@ public class Navigator {
 	}
 
 	public Route solve() {
-		int NB_ITEMS = sights.length;
-		int[][] matrix = new int[NB_ITEMS + 1][freeTime + 1];
+		int NB_PLACES = sights.length;
+		int[][] matrix = new int[NB_PLACES + 1][freeTime + 1];
 
 		for (int i = 0; i <= freeTime; i++) {
 			matrix[0][i] = 0;
 		}
-
-		for (int i = 1; i <= NB_ITEMS; i++) {
+		for (int i = 1; i <= NB_PLACES; i++) {
 			for (int j = 0; j <= freeTime; j++) {
 				if (sights[i - 1].getSpentTime() > j) {
 					matrix[i][j] = matrix[i - 1][j];
@@ -53,19 +52,22 @@ public class Navigator {
 			}
 		}
 
-		int res = matrix[NB_ITEMS][freeTime];
-		int time = freeTime;
-		List<Sight> itemsSolution = new ArrayList<>();
+		return new Route(getPlaces(matrix, NB_PLACES), matrix[NB_PLACES][freeTime]);
+	}
 
-		for (int i = NB_ITEMS; i > 0 && res > 0; i--) {
+	private List<Sight> getPlaces(int[][] matrix, int NB_PLACES) {
+		int res = matrix[NB_PLACES][freeTime];
+		int time = freeTime;
+		List<Sight> places = new ArrayList<>();
+
+		for (int i = NB_PLACES; i > 0 && res > 0; i--) {
 			if (res != matrix[i - 1][time]) {
-				itemsSolution.add(sights[i - 1]);
+				places.add(sights[i - 1]);
 				res -= sights[i - 1].getImportance();
 				time -= sights[i - 1].getSpentTime();
 			}
 		}
-
-		return new Route(itemsSolution, matrix[NB_ITEMS][freeTime]);
+		return places;
 	}
 
 	private static Sight[] parseFile(String filePath) throws RuntimeException {
