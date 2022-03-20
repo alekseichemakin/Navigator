@@ -6,7 +6,7 @@ public class Sight {
 
 	public Sight(String name, int importance, double spentTime) {
 		this.name = name;
-		this.spentTime = (Double.valueOf(spentTime * 2).intValue()); // for minutes, ex. 2.5h=5
+		this.spentTime = (Double.valueOf(spentTime * 2).intValue()); // spent time can be 0.5, for getting integer multiply on 2
 		this.importance = importance;
 	}
 

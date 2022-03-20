@@ -31,13 +31,9 @@ public class Route {
 			System.out.println("\nОптимальный маршрут");
 			System.out.println("Выбранные достопримечательности :");
 
-			double t = 0;
 			for (Sight sight : sights) {
 				System.out.println("- " + sight.toString());
-				t += sight.getSpentTime() / 2.0;
 			}
-
-			System.out.println("Осталось времени: " + (48 - 16 - t) + " ч");
 		}
 	}
 }

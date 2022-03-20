@@ -14,17 +14,17 @@ public class Navigator {
 	private int freeTime;
 	private final static int TIME_IN_TRIP = 48;
 	private final static int TIME_TO_SLEEP = 16;
-	private final static String FILE_PATH = "./places.txt"; // should be [name importance time]
+	private final static String FILE_PATH = "src/places.txt"; // file structure should be [name importance time]
 
 	public Navigator(Sight[] items, int freeTime) {
 		this.sights = items;
-		this.freeTime = freeTime * 2;
+		this.freeTime = freeTime * 2; // spent time can be 0.5, for getting integer multiply on 2
 	}
 
 	public void display() {
 		if (sights != null && sights.length > 0) {
 			System.out.println("Планы на поездку");
-			System.out.println("Свободное время : " + freeTime + " ч.");
+			System.out.println("Свободное время : " + freeTime / 2 + " ч.");
 			System.out.println("Достопримечательности :");
 
 			for (Sight sight : sights) {
